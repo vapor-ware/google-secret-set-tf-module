@@ -38,8 +38,3 @@ resource "google_secret_manager_secret_version" "managed_secret_version" {
   secret = google_secret_manager_secret.managed_secret[count.index].id
   secret_data = data.google_kms_secret.secret_via_kms[count.index].plaintext
 }
-
-output "svc_acct_email" {
-  value = "${google_service_account.secret_accessor.email}"
-  depends_on = [google_service_account.secret_accessor]
-}
