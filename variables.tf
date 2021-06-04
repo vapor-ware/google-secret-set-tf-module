@@ -9,3 +9,8 @@ variable "crypto_key" {
 variable "svc_acct_name" {
   type = string
 }
+
+variable "prefix" {
+  type    = string
+  default = ""
+}

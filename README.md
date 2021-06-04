@@ -33,6 +33,8 @@ module "this-module-implementation" {
     unique_secret_name  = "CipherTextGeneratedFromThisCryptoKey"
     another_secret_name = "OtherCipherTextFromTheSameKey"
   }
+# optional, useful for managing secret name uniqueness
+  prefix        = "prefix-to-secret-names-"
 }
 ```
 The module will output the service account's email address.

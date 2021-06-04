@@ -20,7 +20,7 @@ data "google_kms_secret" "secret_via_kms" {
 
 resource "google_secret_manager_secret" "managed_secret" {
   count     = length(keys(var.secrets))
-  secret_id = keys(var.secrets)[count.index]
+  secret_id = "${var.prefix}${keys(var.secrets)[count.index]}"
   
   replication {
     automatic = true
