@@ -40,5 +40,6 @@ resource "google_secret_manager_secret_version" "managed_secret_version" {
 }
 
 output "svc_acct_email" {
-  value = google_service_account.secret_accessor.email
+  value = "${google_service_account.secret_accessor.email}"
+  depends_on = [google_service_account.secret_accessor]
 }
