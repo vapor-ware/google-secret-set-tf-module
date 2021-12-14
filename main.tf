@@ -8,7 +8,7 @@ data "google_iam_policy" "secrets_access" {
   binding {
     role    = "roles/secretmanager.secretAccessor"
     members = [
-      "serviceAccount:${var.existing_svc_acct_email ? var.existing_svc_acct_email : google_service_account.secret_accessor.email}"
+      "serviceAccount:${var.existing_svc_acct_email ? var.existing_svc_acct_email : google_service_account.secret_accessor[0].email}"
     ]
   }
 }
