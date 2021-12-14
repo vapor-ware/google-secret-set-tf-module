@@ -11,7 +11,7 @@ variable "svc_acct_name" {
   default = ""
   validation {
     condition     = can(regex("^([a-z](?:[-a-z0-9]{4,28}[a-z0-9])|)$", var.svc_acct_name))
-    error_message = "svc_acct_name must be alphanumeric, between 6 and 30 characters long"
+    error_message = "Variable `svc_acct_name` must be alphanumeric, between 6 and 30 characters long."
   }
 }
 
@@ -25,6 +25,6 @@ variable "prefix" {
   default = ""
   validation {
     condition     = can(regex("^([a-z](?:[-a-z0-9]{0,10}[a-z0-9])|)$", var.prefix))
-    error_message = "prefix must be alphanumeric, between 2 and 12 characters long"
+    error_message = "Variable `prefix` must be alphanumeric, between 2 and 12 characters long."
   }
 }
