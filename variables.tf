@@ -7,7 +7,13 @@ variable "crypto_key" {
 }
 
 variable "svc_acct_name" {
-  type = string
+  type    = string
+  default = ""
+}
+
+variable "existing_svc_acct_email" {
+  type    = string
+  default = ""
 }
 
 variable "prefix" {

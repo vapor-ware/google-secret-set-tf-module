@@ -1,5 +1,6 @@
 resource "google_service_account" "secret_accessor" {
-  account_id = var.svc_acct_name
+  count = var.existing_svc_acct_email ? 0 : 1
+  account_id = var.svc_acct_name ? var.svc_acct_name : "${var.prefix}_secrets_accessor"
   display_name = "google_secret_set accessor ${var.svc_acct_name}"
 }
 
@@ -7,7 +8,7 @@ data "google_iam_policy" "secrets_access" {
   binding {
     role    = "roles/secretmanager.secretAccessor"
     members = [
-      "serviceAccount:${google_service_account.secret_accessor.email}"
+      "serviceAccount:${var.existing_svc_acct_email ? var.existing_svc_acct_email : google_service_account.secret_accessor.email}"
     ]
   }
 }
