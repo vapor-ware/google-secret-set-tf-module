@@ -1,11 +1,11 @@
 locals {
-  email_provided  = (var.existing_svc_acct_email != "")
-  name_provided   = (var.svc_acct_name != "")
-  prefix_provided = (var.prefix != "")
+  email_provided  = can(regex("^[a-z]",var.existing_svc_acct_email))
+  name_provided   = can(regex("^[a-z]",var.svc_acct_name))
+  prefix_provided = can(regex("[a-z]"var.prefix))
 }
 
 resource "google_service_account" "secret_accessor" {
-  count = can(regex("^[a-z]"),var.existing_svc_acct_email) ? 0 : 1
+  count = local.email_provided ? 0 : 1
   account_id = local.name_provided ? var.svc_acct_name : "${var.prefix}-secrets-accessor"
   display_name = "google_secret_set accessor ${var.svc_acct_name}"
 }
