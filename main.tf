@@ -14,7 +14,7 @@ data "google_iam_policy" "secrets_access" {
   binding {
     role    = "roles/secretmanager.secretAccessor"
     members = [
-      "serviceAccount:${ local.email_provided ? var.existing_svc_acct_email : google_service_account.secret_accessor[0].email}"
+      "serviceAccount:${ local.email_provided ? var.existing_svc_acct_email : toString(try(google_service_account.secret_accessor[0].email, null))"
     ]
   }
 }
