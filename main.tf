@@ -1,5 +1,5 @@
 resource "google_service_account" "secret_accessor" {
-  count = var.existing_svc_acct_email ? 0 : 1
+  count = (var.existing_svc_acct_email != "") ? 0 : 1
   account_id = var.svc_acct_name ? var.svc_acct_name : "${var.prefix}_secrets_accessor"
   display_name = "google_secret_set accessor ${var.svc_acct_name}"
 }
