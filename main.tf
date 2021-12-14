@@ -5,7 +5,7 @@ locals {
 }
 
 resource "google_service_account" "secret_accessor" {
-  count = (var.existing_svc_acct_email != "") ? 0 : 1
+  count = min(1, length(var.existing_svc_acct_email))
   account_id = local.name_provided ? var.svc_acct_name : "${var.prefix}-secrets-accessor"
   display_name = "google_secret_set accessor ${var.svc_acct_name}"
 }
