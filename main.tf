@@ -1,7 +1,7 @@
 locals {
   email_provided  = can(regex("^[a-z]",var.existing_svc_acct_email))
   name_provided   = can(regex("^[a-z]",var.svc_acct_name))
-  prefix_provided = can(regex("[a-z]"var.prefix))
+  prefix_provided = can(regex("[a-z]",var.prefix))
 }
 
 resource "google_service_account" "secret_accessor" {
