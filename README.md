@@ -12,12 +12,12 @@ This Terraform module creates one or more managed secrets in a Google Project, a
 
 The following resources will be created:
 
+one [google_service_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account) and corresponding [google_iam_policy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/iam_policy)
+
 one of each of the following per defined secret:
 - [google_secret_manager_secret](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret)
 - [google_secret_manager_secret_version](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret_version)
 - [google_secret_manager_secret_iam_policy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret_iam#google_secret_manager_secret_iam_policy)
-
-optionally, one [google_service_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account) and corresponding [google_iam_policy](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/iam_policy), or an existing service account can be made the secret accessor instead.
 
 Ephemeral [google_kms_secret](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/kms_secret) datasources are also defined to carry ciphertext to the secret_version, but are not persistently created in the project.
 
@@ -33,26 +33,28 @@ module "this-module-implementation" {
     another_secret_name = "OtherCipherTextFromTheSameKey"
   }
   svc_acct_name = "unique-acct-name"
-  prefix        = "prefix-to-secret-names-"
+  prefix        = "prefix-name"
 }
 
 ## Required Variables
 
-| NAME | DESCRIPTION | DEFAULT |
-|:=====|:============|:========|
-| `crypto_key` | Google keyRing resource | required; no default |
-| `secrets` | A [map](https://www.terraform.io/docs/configuration-0-11/variables.html#maps) of secrets in `secret_name = "cipherText"` key/value pairs | required; no default |
+| NAME | DESCRIPTION | 
+|:=====|:============|
+| `crypto_key` | Google keyRing resource |
+| `secrets` | A [map](https://www.terraform.io/docs/configuration-0-11/variables.html#maps) of secrets in `secret_name = "cipherText"` key/value pairs |
 
 In addition to these two variables, one of the following three must be provided for the secret accessor service account.
-| `svc_acct_name` | Name (alphanumeric, dashes, and underscores only) to give a new service account | `""` |
-| `existing_svc_acct_email` | The email address of an existing service account to grant access | `""` |
-| `prefix` | String to prepend to secret names for improved uniqueness and grouping | `""` |
+| NAME | DESCRIPTION | DEFAULT |
+|:=====|:============|:========|
+| `svc_acct_name` | Name (alphanumeric and dashes only,between 6 and 30 characters long) to give a new service account | `""` |
+| `prefix` | String to prepend to secret names for improved uniqueness and grouping (alphanumeric, not more than 13 characters long) | `""` |
+`prefix` may be with or without `svc_acct_name`
+If `svc_acct_name` is not provided, the service account name will be `${prefix}-secrets-accessor`
 
-`svc_acct_name` and `existing_svc_acct_email` are mutually exclusive.
-If both are provided, `svc_acct_name` is ignored.
-
-`prefix` may be used in combination with either `svc_acct_name` or `existing_svc_acc_email`
-If neither is provided, the service account name will be `${prefix}_secrets_accessor`
+## Optional Variables
+| NAME | DESCRIPTION | DEFAULT |
+|:=====|:============|:========|
+| `existing_svc_acct_email` | The email address of an existing service account to also grant secrets access | `""` |
 
 ```
 The module will output the service account's email address.

@@ -15,7 +15,7 @@ variable "svc_acct_name" {
   }
 }
 
-variable "existing_svc_acct_email" {
+variable "additional_svc_acct_email" {
   type    = string
   default = ""
 }
@@ -24,7 +24,7 @@ variable "prefix" {
   type    = string
   default = ""
   validation {
-    condition     = can(regex("^([a-z](?:[-a-z0-9]{0,10}[a-z0-9])|)$", var.prefix))
-    error_message = "Variable `prefix` must be alphanumeric, between 2 and 12 characters long."
+    condition     = can(regex("^([a-z](?:[-a-z0-9]{1,10}[a-z0-9])|)$", var.prefix))
+    error_message = "Variable `prefix` must be alphanumeric, between 3 and 13 characters long."
   }
 }
