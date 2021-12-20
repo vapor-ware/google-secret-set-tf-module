@@ -40,7 +40,7 @@ resource "google_secret_manager_secret_iam_policy" "managed_secret_policy" {
   secret_id   = google_secret_manager_secret.managed_secret[count.index].id
   policy_data = data.google_iam_policy.secrets_access.policy_data
   depends_on  = [
-    google_secret_manager_secret.managed_secret[count.index]
+    google_secret_manager_secret.managed_secret[0]
   ]
 }
 
@@ -49,6 +49,6 @@ resource "google_secret_manager_secret_version" "managed_secret_version" {
   secret      = google_secret_manager_secret.managed_secret[count.index].id
   secret_data = data.google_kms_secret.secret_via_kms[count.index].plaintext
   depends_on  = [
-    google_secret_manager_secret.managed_secret[count.index]
+    google_secret_manager_secret.managed_secret[0]
   ]
 }
