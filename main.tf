@@ -31,7 +31,7 @@ resource "google_secret_manager_secret" "managed_secret" {
   secret_id = "${var.prefix}-${keys(var.secrets)[count.index]}"
   
   replication {
-    automatic = true
+    auto {}
   }
 }
 
